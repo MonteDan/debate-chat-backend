@@ -4,7 +4,7 @@ The backend for the Debate Chat app.
 
 ## Prerequisites
 
-Before you begin, ensure you have installed the latest version of [Go](https://golang.org/dl/).
+Before you begin, ensure you have installed the latest version of [Go](https://go.dev/dl/).
 
 ### Install
 
@@ -25,4 +25,10 @@ go run .
 ```bash
 go build .
 ./debate-chat-backend # Run the build
+```
+
+### Docker
+
+```bash
+docker compose up --build
 ```
