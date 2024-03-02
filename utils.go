@@ -53,7 +53,7 @@ func getURLParam(request *http.Request, writer http.ResponseWriter, param string
 }
 
 func initDB() *gorm.DB {
-	dsn := "host=localhost user=postgres dbname=postgres password=example sslmode=disable"
+	dsn := "host=db user=postgres dbname=postgres password=postgres sslmode=disable"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect to the database")
