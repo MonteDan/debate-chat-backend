@@ -72,6 +72,9 @@ func prepareChatObject(chat *Chat) {
 	if chat.ID == "" {
 		chat.ID = generateID(20)
 	}
+	if chat.Title == "" {
+		chat.Title = "Chat " + chat.ID
+	}
 	chat.AdminToken = generateID(64)
 	chat.Messages = []Message{}
 }
