@@ -11,7 +11,7 @@ import (
 
 func handleWebSocketConnection(db *gorm.DB, writer http.ResponseWriter, request *http.Request) {
 	adminToken := request.URL.Query().Get("adminToken")
-	chatID := request.URL.Query().Get("chatID")
+	chatID := request.URL.Query().Get("chatId")
 
 	var chat Chat
 	result := db.Where("id = ? AND admin_token = ?", chatID, adminToken).First(&chat)
