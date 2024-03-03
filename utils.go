@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
-	"gorm.io/driver/postgres"
+	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
@@ -65,8 +65,7 @@ func getBearerToken(request *http.Request, writer http.ResponseWriter) (string, 
 }
 
 func initDB() *gorm.DB {
-	dsn := "host=db user=postgres dbname=postgres password=postgres sslmode=disable"
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open("gorm.db"), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect to the database")
 	}
