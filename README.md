@@ -30,5 +30,5 @@ go build .
 ### Docker
 
 ```bash
-docker compose up --build
+docker compose up --build # starts on post 8080
 ```
