@@ -9,10 +9,6 @@ import (
 	"gorm.io/gorm"
 )
 
-type AdminTokenBody struct {
-	AdminToken string `json:"admin_token"`
-}
-
 func handleWebSocketConnection(db *gorm.DB, writer http.ResponseWriter, request *http.Request) {
 	adminToken := request.URL.Query().Get("adminToken")
 	chatID := request.URL.Query().Get("chatID")
@@ -81,13 +77,13 @@ func handleGetChatAdmin(db *gorm.DB, writer http.ResponseWriter, request *http.R
 		return
 	}
 
-	var body AdminTokenBody
-	if decodeJSONBody(writer, request, &body) != nil {
+	adminToken, ok := getBearerToken(request, writer)
+	if !ok {
 		return
 	}
 
 	var chat Chat
-	result := db.Preload("Messages").Where("id = ? AND admin_token = ?", chatID, body.AdminToken).First(&chat)
+	result := db.Preload("Messages").Where("id = ? AND admin_token = ?", chatID, adminToken).First(&chat)
 	if handleDBError(writer, result, "Invalid admin token or chat ID") != nil {
 		return
 	}
@@ -116,12 +112,12 @@ func handleDeleteMessage(db *gorm.DB, writer http.ResponseWriter, request *http.
 		return
 	}
 
-	var body AdminTokenBody
-	if decodeJSONBody(writer, request, &body) != nil {
+	adminToken, ok := getBearerToken(request, writer)
+	if !ok {
 		return
 	}
 
-	result := db.Where("id = ? AND chat_id IN (SELECT id FROM chats WHERE admin_token = ?)", messageID, body.AdminToken).Delete(&Message{})
+	result := db.Where("id = ? AND chat_id IN (SELECT id FROM chats WHERE admin_token = ?)", messageID, adminToken).Delete(&Message{})
 	if handleDBError(writer, result) != nil {
 		return
 	} else if result.RowsAffected == 0 {
