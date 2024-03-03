@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"math/rand"
 	"net/http"
-	"time"
 	"strings"
+	"time"
 
 	"github.com/gorilla/mux"
 	"gorm.io/driver/postgres"
@@ -53,15 +53,15 @@ func getURLParam(request *http.Request, writer http.ResponseWriter, param string
 	return value, ok
 }
 
-// Returns the bearer, ok
+// Returns (the bearer token, ok)
 func getBearerToken(request *http.Request, writer http.ResponseWriter) (string, bool) {
-		authHeader := request.Header.Get("Authorization")
-    splitToken := strings.Split(authHeader, "Bearer ")
-    if len(splitToken) != 2 {
-        http.Error(writer, "Invalid token", http.StatusUnauthorized)
-				return "", false
-    }
-		return splitToken[1], true
+	authHeader := request.Header.Get("Authorization")
+	splitToken := strings.Split(authHeader, "Bearer ")
+	if len(splitToken) != 2 {
+		http.Error(writer, "Invalid token", http.StatusUnauthorized)
+		return "", false
+	}
+	return splitToken[1], true
 }
 
 func initDB() *gorm.DB {
