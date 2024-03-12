@@ -65,7 +65,7 @@ func getBearerToken(request *http.Request, writer http.ResponseWriter) (string, 
 }
 
 func initDB() *gorm.DB {
-	db, err := gorm.Open(sqlite.Open("gorm.db"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open("./data/gorm.db"), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect to the database")
 	}
