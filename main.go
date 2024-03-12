@@ -16,6 +16,7 @@ func main() {
 	router.HandleFunc("/message", handleUsing(handleSendMessage, db)).Methods("POST")
 	router.HandleFunc("/chats", handleUsing(handleCreateChat, db)).Methods("POST")
 	router.HandleFunc("/chats/{id}/admin", handleUsing(handleGetChatAdmin, db)).Methods("GET")
+	router.HandleFunc("/chats/{id}/admin/login", handleUsing(handleChatLogin, db)).Methods("POST")
 	router.HandleFunc("/chats/{id}", handleUsing(handleGetChatUser, db)).Methods("GET")
 	router.HandleFunc("/message/{id}", handleUsing(handleDeleteMessage, db)).Methods("DELETE")
 

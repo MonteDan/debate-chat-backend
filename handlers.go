@@ -125,3 +125,20 @@ func handleDeleteMessage(db *gorm.DB, writer http.ResponseWriter, request *http.
 		return
 	}
 }
+
+func handleChatLogin(db *gorm.DB, writer http.ResponseWriter, request *http.Request) {
+
+	var body Chat // Only passwordand chatId
+	if decodeJSONBody(writer, request, &body) != nil {
+		return
+	}
+
+	fmt.Println(body.ID, body.Password)
+	var chat Chat
+	result := db.Select("admin_token").Where("id = ? AND password = ?", body.ID, body.Password).First(&chat)
+	if handleDBError(writer, result, "Invalid chat ID or password") != nil {
+		return
+	}
+
+	json.NewEncoder(writer).Encode(chat.AdminToken)
+}
